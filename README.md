@@ -57,6 +57,7 @@ ggplot(Total_Steps, aes(x = steps)) +  geom_histogram(fill = "blue", binwidth = 
        x = "Steps", y = "Frequency")
 ```
 
+
 ## Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 ```
 activityDT <- data.table::fread(input = "activity.csv")
