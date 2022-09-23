@@ -24,9 +24,8 @@ Total_Steps <- activityDT[, c(lapply(.SD, sum, na.rm = TRUE)), .SDcols = c("step
 head(Total_Steps, 10)
 library(ggplot2)
 png("hist1.png", width=480, height=480)
-ggplot(Total_Steps, aes(x = steps)) +
-    geom_histogram(fill = "blue", binwidth = 1000) +
-    labs(title = "Daily Steps", x = "Steps", y = "Frequency")
+ggplot(Total_Steps, aes(x = steps)) + geom_histogram(fill = "blue", binwidth = 1000) + labs(title = "Daily Steps", 
+       x = "Steps", y = "Frequency")
 dev.off()
 ```
 
@@ -38,9 +37,8 @@ Total_Steps[, .(Mean_Steps = mean(steps), Median_Steps = median(steps))]
 ## The 5-minute interval that, on average, contains the maximum number of steps
 ```
 IntervalDT <- activityDT[, c(lapply(.SD, mean, na.rm = TRUE)), .SDcols = c("steps"), by = .(interval)] 
-ggplot(IntervalDT, aes(x = interval , y = steps)) +
-    geom_line(color="blue", size=1) +
-    labs(title = "Avg. Daily Steps", x = "Interval", y = "Avg. Steps per day")
+ggplot(IntervalDT, aes(x = interval , y = steps)) + geom_line(color="blue", size=1) + labs(title = "Avg. Daily Steps",
+       x = "Interval", y = "Avg. Steps per day")
 IntervalDT <- activityDT[, c(lapply(.SD, mean, na.rm = TRUE)), .SDcols = c("steps"), by = .(interval)] 
 IntervalDT[steps == max(steps), .(max_interval = interval)]
 ```
@@ -53,13 +51,14 @@ data.table::fwrite(x = activityDT, file = "data/tidyData.csv", quote = FALSE)
 ```
 
 ## Histogram of the total number of steps taken each day after missing values are imputed
+```
 Total_Steps <- activityDT[, c(lapply(.SD, sum, na.rm = TRUE)), .SDcols = c("steps"), by = .(date)]
 Total_Steps[, .(Mean_Steps = mean(steps), Median_Steps = median(steps))]
 library(ggplot2)
-ggplot(Total_Steps, aes(x = steps)) +
-    geom_histogram(fill = "blue", binwidth = 1000) +
-    labs(title = "Daily Steps", x = "Steps", y = "Frequency")
+ggplot(Total_Steps, aes(x = steps)) +  geom_histogram(fill = "blue", binwidth = 1000) + labs(title = "Daily Steps", 
+       x = "Steps", y = "Frequency")
 ```
+
 ## Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 ```
 activityDT[, dateTime := as.POSIXct(date, format = "%Y-%m-%d")]
@@ -69,5 +68,6 @@ activityDT[grepl(pattern = "Saturday|Sunday", x = `Day of Week`), "weekday or we
 activityDT[, `weekday or weekend` := as.factor(`weekday or weekend`)]
 activityDT[is.na(steps), "steps"] <- activityDT[, c(lapply(.SD, median, na.rm = TRUE)), .SDcols = c("steps")]
 IntervalDT <- activityDT[, c(lapply(.SD, mean, na.rm = TRUE)), .SDcols = c("steps"), by = .(interval, `weekday or weekend`)] 
-ggplot(IntervalDT , aes(x = interval , y = steps, color=`weekday or weekend`)) + geom_line() + labs(title = "Avg. Daily Steps by Weektype", x = "Interval", y = "No. of Steps")
+ggplot(IntervalDT , aes(x = interval , y = steps, color=`weekday or weekend`)) + geom_line() + 
+       labs(title = "Avg. Daily Steps by Weektype", x = "Interval", y = "No. of Steps")
 ```
