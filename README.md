@@ -20,7 +20,6 @@ activityDT <- data.table::fread(input = "activity.csv")
 ```
 Total_Steps <- activityDT[, c(lapply(.SD, sum, na.rm = TRUE)), .SDcols = c("steps"), by = .(date)] 
 head(Total_Steps, 10)
-library(ggplot2)
 png("hist1.png", width=480, height=480)
 ggplot(Total_Steps, aes(x = steps)) + geom_histogram(fill = "blue", binwidth = 1000) + labs(title = "Daily Steps", 
        x = "Steps", y = "Frequency")
@@ -52,7 +51,6 @@ data.table::fwrite(x = activityDT, file = "tidyData.csv", quote = FALSE)
 ```
 Total_Steps <- activityDT[, c(lapply(.SD, sum, na.rm = TRUE)), .SDcols = c("steps"), by = .(date)]
 Total_Steps[, .(Mean_Steps = mean(steps), Median_Steps = median(steps))]
-library(ggplot2)
 ggplot(Total_Steps, aes(x = steps)) +  geom_histogram(fill = "blue", binwidth = 1000) + labs(title = "Daily Steps", 
        x = "Steps", y = "Frequency")
 ```
