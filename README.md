@@ -12,6 +12,7 @@ intervals each day.
 ## Reading the dataset and processing the data
 ```
 library("data.table")
+library(ggplot2)
 activityDT <- data.table::fread(input = "activity.csv")
 ```
 
